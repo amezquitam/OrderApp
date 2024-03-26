@@ -3,7 +3,10 @@ package ford.group.orderapp.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "clients")
+@Table(
+        name = "clients",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"email"})
+)
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

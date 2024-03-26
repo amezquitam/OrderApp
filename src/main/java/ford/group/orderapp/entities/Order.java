@@ -3,6 +3,7 @@ package ford.group.orderapp.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -19,14 +20,18 @@ public class Order {
 
     private OrderStatus status;
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderedItem> orderedItems;
+
     public Order() {
     }
 
-    public Order(Long id, Client client, LocalDateTime orderedAt, OrderStatus status) {
+    public Order(Long id, Client client, LocalDateTime orderedAt, OrderStatus status, List<OrderedItem> orderedItems) {
         this.id = id;
         this.client = client;
         this.orderedAt = orderedAt;
         this.status = status;
+        this.orderedItems = orderedItems;
     }
 
     public Long getId() {
@@ -65,11 +70,20 @@ public class Order {
         return new OrderBuilder();
     }
 
+    public List<OrderedItem> getOrderedItems() {
+        return orderedItems;
+    }
+
+    public void setOrderedItems(List<OrderedItem> orderedItems) {
+        this.orderedItems = orderedItems;
+    }
+
     public static final class OrderBuilder {
         private Long id;
         private Client client;
         private LocalDateTime orderedAt;
         private OrderStatus status;
+        private List<OrderedItem> orderedItems;
 
         private OrderBuilder() {
         }
@@ -98,12 +112,18 @@ public class Order {
             return this;
         }
 
+        public OrderBuilder orderedItems(List<OrderedItem> orderedItems) {
+            this.orderedItems = orderedItems;
+            return this;
+        }
+
         public Order build() {
             Order order = new Order();
             order.setId(id);
             order.setClient(client);
             order.setOrderedAt(orderedAt);
             order.setStatus(status);
+            order.setOrderedItems(orderedItems);
             return order;
         }
     }

@@ -174,5 +174,6 @@ class ClientRepositoryTest extends AbstractIntegrationDBTest {
 
         assertThat(targetClients).hasSize(3);
         assertThat(targetClients).anyMatch(client -> client.getName().equals("Joe Gomez"));
+        assertThat(targetClients).anyMatch(client -> client.getAddress().equals("K267-23"));
     }
 }

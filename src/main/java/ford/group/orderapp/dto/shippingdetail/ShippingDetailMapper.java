@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 public interface ShippingDetailMapper {
     ShippingDetailDTO shippingDetailToShippingDetailDTO(ShippingDetail shippingDetail);
     ShippingDetail shippingDetailDTOToShippingDetail(ShippingDetailDTO shippingDetailDTO);
+    ShippingDetail shippingDetailSaveDTOToShippingDetail(ShippingDetailToSaveDTO shippingDetailToSaveDTO);
 }

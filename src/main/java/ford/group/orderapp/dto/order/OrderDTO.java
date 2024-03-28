@@ -5,6 +5,7 @@ import ford.group.orderapp.dto.ordereditem.OrderedItemDTO;
 import ford.group.orderapp.entities.OrderStatus;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 public record OrderDTO(
@@ -13,5 +14,10 @@ public record OrderDTO(
         LocalDateTime orderedAt,
         OrderStatus orderStatus,
         List<OrderedItemDTO> orderedItems
+
+
 ) {
+    public List<OrderedItemDTO> orderedItems(){
+        return Collections.unmodifiableList(orderedItems);
+    }
 }

@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 public interface PaymentMapper {
     PaymentDTO paymentToPaymentDTO(Payment payment);
     Payment paymentDTOToPayment(PaymentDTO paymentDTO);
+    Payment paymentSaveDTOToPaymente(PaymentToSaveDTO paymentToSaveDTO);
 }

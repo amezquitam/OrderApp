@@ -1,4 +1,4 @@
-package ford.group.orderapp.dto;
+package ford.group.orderapp.dto.shippingdetail;
 
 import ford.group.orderapp.dto.order.OrderDTO;
 

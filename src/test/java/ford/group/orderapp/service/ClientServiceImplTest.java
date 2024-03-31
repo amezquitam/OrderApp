@@ -1,15 +1,14 @@
 package ford.group.orderapp.service;
 
 import ford.group.orderapp.dto.client.ClientDTO;
+import ford.group.orderapp.dto.client.ClientMapperImpl;
 import ford.group.orderapp.dto.client.ClientToSaveDTO;
 import ford.group.orderapp.entities.Client;
+import ford.group.orderapp.exception.ClientNotFoundException;
 import ford.group.orderapp.repository.ClientRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -20,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClientServiceImplTest {
@@ -29,13 +27,14 @@ class ClientServiceImplTest {
     @Mock
     private ClientRepository clientRepository;
 
-    @InjectMocks
     private ClientServiceImpl clientService;
 
     Client client;
 
     @BeforeEach
     void setUp() {
+        clientService = new ClientServiceImpl(new ClientMapperImpl(), clientRepository);
+
         client = Client.builder()
                 .id(48L)
                 .name("Test Client")
@@ -68,10 +67,13 @@ class ClientServiceImplTest {
     void findClientById() {
         Long clientId = 48L;
 
+        given(clientRepository.findById(any()))
+                .willReturn(Optional.empty());
+
         given(clientRepository.findById(clientId))
                 .willReturn(Optional.of(client));
 
-        ClientDTO client =  clientService.findClientById(clientId);
+        ClientDTO client = clientService.findClientById(clientId);
 
         assertThat(client).isNotNull();
     }
@@ -81,6 +83,7 @@ class ClientServiceImplTest {
         Long clientId = 48L;
 
         willDoNothing().given(clientRepository).delete(any());
+        when(clientRepository.findById(clientId)).thenReturn(Optional.of(client));
 
         clientService.removeClient(clientId);
 
@@ -94,10 +97,15 @@ class ClientServiceImplTest {
                 .willReturn(client);
 
         var client = clientService.findClientByEmail(clientEmail);
-        var fakeClient = clientService.findClientByEmail("fakeacount@test.test");
 
         assertThat(client).isNotNull();
-        assertThat(fakeClient).isNull();
+
+        assertThrows(
+                ClientNotFoundException.class,
+                () -> clientService.findClientByEmail("fakeacount@test.test"),
+                "Cliente no encontrado"
+        );
+
     }
 
     @Test

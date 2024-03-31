@@ -2,7 +2,6 @@ package ford.group.orderapp.service;
 
 import ford.group.orderapp.dto.client.ClientDTO;
 import ford.group.orderapp.dto.client.ClientToSaveDTO;
-import ford.group.orderapp.entities.Client;
 import ford.group.orderapp.exception.ClientNotFoundException;
 
 import java.util.List;

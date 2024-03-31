@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
     private final ClientMapper clientMapper;
     private final ClientRepository clientRepository;
 
@@ -43,8 +43,8 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientDTO findClientById(Long id) throws ClientNotFoundException {
-       Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
-       return clientMapper.clientToClientDTO(client);
+        Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
+        return clientMapper.clientToClientDTO(client);
     }
 
     @Override

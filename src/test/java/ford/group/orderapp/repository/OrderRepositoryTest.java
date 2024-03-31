@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -144,6 +145,14 @@ class OrderRepositoryTest extends AbstractIntegrationDBTest {
 
     @Test
     void findOrdersByOrderedAtBetween() {
+        // given some orders in DB
+        var ordersInDB = orderRepository.saveAll(orders);
+
+        // when find orders in date range
+        var ordersInMarch = orderRepository.findOrdersByOrderedAtBetween(
+                LocalDateTime.of(2024, 3, 1, 0, 0, 0),
+                LocalDateTime.of(2021, 3, 31, 23, 59, 59)
+        );
     }
 
     @Test

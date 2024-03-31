@@ -4,8 +4,7 @@ import ford.group.orderapp.entities.Client;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
-@Mapper
-@Component
+@Mapper(componentModel = "spring")
 public interface ClientMapper {
     ClientDTO clientToClientDTO(Client client);
     Client clientDTOToClient(ClientDTO clientDTO);

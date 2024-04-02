@@ -14,5 +14,5 @@ public interface ClientService {
     ClientDTO findClientByEmail(String email);
     List<ClientDTO> findClientsByAddress(String address);
     List<ClientDTO> findClientsByNameStartsWith(String name);
-
+    List<ClientDTO> findAll();
 }

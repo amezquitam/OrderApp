@@ -101,7 +101,7 @@ public class PaymentControllerTest {
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/payments/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"some\":\"json\"}"))
+                        .content("{\"totalPayment\":500, \"payedAt\":\"2024-04-01\", \"paymentMethod\":\"CASH\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedSavedPayment.id()));
 

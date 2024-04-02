@@ -12,10 +12,12 @@ import ford.group.orderapp.exception.ProductNotFoundException;
 import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.OrderedItemRepository;
 import ford.group.orderapp.repository.ProductRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class OrderedItemServiceImpl implements OrderedItemService{
     private final OrderedItemMapper orderedItemMapper;
     private final OrderedItemRepository orderedItemRepository;

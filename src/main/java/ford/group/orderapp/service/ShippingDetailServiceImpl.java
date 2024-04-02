@@ -10,11 +10,13 @@ import ford.group.orderapp.exception.OrderNotFoundException;
 import ford.group.orderapp.exception.ShippingDetailNotFoundException;
 import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.ShippingDetailRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Service
 public class ShippingDetailServiceImpl implements ShippingDetailService{
     private final ShippingDetailRepository shippingDetailRepository;
     private final ShippingDetailMapper shippingDetailMapper;

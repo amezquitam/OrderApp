@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    public List<Product> findProductsByNameContains(String term);
+    List<Product> findProductsByNameContains(String term);
 
     /**
      * Products in stock
      * @param zero: Always pass zero
      */
-    public List<Product> findProductsByStockGreaterThan(Integer zero);
+    List<Product> findProductsByStockGreaterThan(Integer zero);
 
-    public List<Product> findProductByPriceLessThanAndStockLessThan(Double maxPrice, Integer maxStock);
+    List<Product> findProductByPriceLessThanAndStockLessThan(Double maxPrice, Integer maxStock);
 }

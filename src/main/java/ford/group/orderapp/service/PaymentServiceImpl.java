@@ -11,11 +11,13 @@ import ford.group.orderapp.exception.OrderedItemNotFoundExcepction;
 import ford.group.orderapp.exception.PaymentNotFoundException;
 import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.PaymentRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class PaymentServiceImpl implements PaymentService{
     private final PaymentMapper paymentMapper;
     private final PaymentRepository paymentRepository;

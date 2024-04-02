@@ -13,12 +13,15 @@ import ford.group.orderapp.exception.NotAbleToDeleteException;
 import ford.group.orderapp.exception.OrderNotFoundException;
 import ford.group.orderapp.repository.ClientRepository;
 import ford.group.orderapp.repository.OrderRepository;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class OrderServiceImpl implements OrderService{
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;

@@ -17,7 +17,7 @@ class ClientRepositoryTest extends AbstractIntegrationDBTest {
 
     @BeforeEach
     void setUp() {
-        clientRepository.deleteAll();
+            clientRepository.deleteAll();
     }
 
     @Test

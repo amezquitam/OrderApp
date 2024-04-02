@@ -13,7 +13,7 @@ public interface OrderedItemRepository extends JpaRepository<OrderedItem, Long> 
 
     List<OrderedItem> findOrderedItemsByProduct(Product product);
 
-    @Query("SELECT SUM(oi.requestedAmount) AS totalSales FROM OrderedItem oi " +
+    @Query("SELECT SUM(oi.requestedAmount * oi.unitPrice) AS totalSales FROM OrderedItem oi " +
             "WHERE oi.product = ?1 GROUP BY oi.product")
     Double totalSumOfSalesByProduct(Product product);
 }

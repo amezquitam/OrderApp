@@ -16,4 +16,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     @Query("select p from Payment p where p.order.id = ?1")
     List<Payment> findPaymentsByOrder(Long id);
+
 }

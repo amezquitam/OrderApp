@@ -18,6 +18,7 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime orderedAt;
 
+    @Enumerated(EnumType.ORDINAL)
     private OrderStatus status;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)

@@ -19,6 +19,7 @@ public class Payment {
     @Temporal(TemporalType.DATE)
     private LocalDate payedAt;
 
+    @Enumerated(EnumType.ORDINAL)
     private PaymentMethod paymentMethod;
 
     public Payment() {

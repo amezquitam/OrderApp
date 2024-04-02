@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,6 +62,26 @@ class ClientServiceImplTest {
 
     @Test
     void updateClient() {
+        Long clientId = 48L;
+
+        given(clientRepository.save(any())).willReturn(client);
+        given(clientRepository.findById(any()))
+                .willReturn(Optional.empty());
+
+        given(clientRepository.findById(clientId))
+                .willReturn(Optional.of(client));
+
+        ClientToSaveDTO clientToSave = new ClientToSaveDTO(
+                "Test Client update",
+                "testclientupdate@test.test",
+                "Av Test update"
+        );
+
+        ClientDTO updatedClient = clientService.updateClient(clientId,clientToSave);
+
+        assertThat(updatedClient.name()).isEqualTo("Test Client update");
+        assertThat(updatedClient.email()).isEqualTo("testclientupdate@test.test");
+        assertThat(updatedClient.address()).isEqualTo("Av Test update");
     }
 
     @Test
@@ -76,6 +97,7 @@ class ClientServiceImplTest {
         ClientDTO client = clientService.findClientById(clientId);
 
         assertThat(client).isNotNull();
+        assertThat(client.id()).isEqualTo(48);
     }
 
     @Test
@@ -110,9 +132,28 @@ class ClientServiceImplTest {
 
     @Test
     void findClientsByAddress() {
+        String clientAddress = "Av Test CR 1 1 1";
+        given(clientRepository.findClientsByAddress(clientAddress))
+                .willReturn(List.of(client));
+
+        var listClients = clientService.findClientsByAddress(clientAddress);
+
+        assertThat(listClients).isNotEmpty();
+
+        assertThat(listClients.get(0).id()).isEqualTo(48);
     }
 
     @Test
     void findClientsByNameStartsWith() {
+        String nameStartsWith = "Test";
+        given(clientRepository.findClientsByNameStartsWith(nameStartsWith))
+                .willReturn(List.of(client));
+
+        var listClients = clientService.findClientsByNameStartsWith(nameStartsWith);
+
+        assertThat(listClients).isNotEmpty();
+
+        assertThat(listClients.get(0).id()).isEqualTo(48);
+        assertThat(listClients.get(0).name()).isEqualTo("Test Client");
     }
 }

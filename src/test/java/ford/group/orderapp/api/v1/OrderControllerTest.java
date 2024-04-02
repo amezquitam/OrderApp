@@ -102,7 +102,7 @@ public class OrderControllerTest {
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/orders/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"orderedAt\": \"2024-04-01\", \"orderStatus\": \"PENDING\" }"))
+                        .content("{\"orderedAt\": \"2024-04-01\", \"status\": \"PENDING\" }"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedSavedOrder.id()));
 
@@ -120,7 +120,7 @@ public class OrderControllerTest {
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/orders/{id}", orderId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"orderedAt\": \"2024-04-01\", \"orderStatus\": \"PENDING\" }"))
+                        .content("{\"orderedAt\": \"2024-04-01\", \"status\": \"PENDING\" }"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedUpdatedOrder.id()));
 

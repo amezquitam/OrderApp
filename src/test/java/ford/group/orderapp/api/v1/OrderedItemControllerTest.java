@@ -98,7 +98,7 @@ public class OrderedItemControllerTest {
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/order-items/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"some\":\"json\"}"))
+                        .content("{\"requestedAmount\": 10, \"unitPrice\": 23}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedSavedItem.id()));
 
@@ -116,7 +116,7 @@ public class OrderedItemControllerTest {
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/order-items/{id}", orderedItemId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"some\":\"json\"}"))
+                        .content("{\"requestedAmount\": 10, \"unitPrice\": 23}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedUpdatedItem.id()));
 

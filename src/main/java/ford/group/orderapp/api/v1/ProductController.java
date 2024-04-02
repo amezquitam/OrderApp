@@ -60,12 +60,12 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         try {
             productService.removeProduct(id);
-            return "Success";
+            return ResponseEntity.ok("Success");
         } catch (NotAbleToDeleteException err) {
-            return err.getMessage();
+            return ResponseEntity.badRequest().body("Id provided doesn't found");
         }
     }
 

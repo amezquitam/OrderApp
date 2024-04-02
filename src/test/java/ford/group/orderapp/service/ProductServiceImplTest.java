@@ -133,6 +133,13 @@ class ProductServiceImplTest {
 
     @Test
     void findProductsInStock() {
+        given(productRepository.findProductsByStockGreaterThan(0))
+                .willReturn(List.of(product));
+
+        var products = productService.findProductsInStock();
+
+        assertThat(products).isNotEmpty();
+        assertThat(products.get(0).stock()).isGreaterThan(0);
     }
 
     @Test

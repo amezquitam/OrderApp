@@ -31,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     public PaymentDTO savePayment(PaymentToSaveDTO paymentDTO) {
-        Payment payment = paymentMapper.paymentSaveDTOToPaymente(paymentDTO);
+        Payment payment = paymentMapper.paymentSaveDTOToPayment(paymentDTO);
         Payment paymentSaved = paymentRepository.save(payment);
         return paymentMapper.paymentToPaymentDTO(paymentSaved);
     }
@@ -39,7 +39,7 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public PaymentDTO updatePayment(Long id, PaymentToSaveDTO paymentDTO) {
         return paymentRepository.findById(id).map(paymentInDB -> {
-            paymentInDB.setOrder(paymentMapper.paymentSaveDTOToPaymente(paymentDTO).getOrder());
+            paymentInDB.setOrder(paymentMapper.paymentSaveDTOToPayment(paymentDTO).getOrder());
             paymentInDB.setTotalPayment(paymentDTO.totalPayment());
             paymentInDB.setPayedAt(paymentDTO.payedAt());
             paymentInDB.setPaymentMethod(PaymentMethod.valueOf(paymentDTO.paymentMethod()));

@@ -64,8 +64,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<ClientDTO> findClientsByAddress(String address) {
         List<Client> clients = clientRepository.findClientsByAddress(address);
-        if (clients.isEmpty())
-            throw new ClientNotFoundException("Clientes no encontrados");
         return clients.stream()
                 .map(clientMapper::clientToClientDTO)
                 .collect(Collectors.toList());
@@ -74,8 +72,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<ClientDTO> findClientsByNameStartsWith(String name) {
         List<Client> clients = clientRepository.findClientsByNameStartsWith(name);
-        if (clients.isEmpty())
-            throw new ClientNotFoundException("Clientes no encontrados");
         return clients.stream()
                 .map(clientMapper::clientToClientDTO)
                 .collect(Collectors.toList());

@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.findById(id).map(orderInDB -> {
             orderInDB.setClient(orderMapper.orderSaveDTOToOrder(orderDTO).getClient());
             orderInDB.setOrderedAt(orderDTO.orderedAt().atStartOfDay());
-            orderInDB.setStatus(OrderStatus.valueOf(orderDTO.orderStatus()));
+            orderInDB.setStatus(OrderStatus.valueOf(orderDTO.status()));
             Order orderSaved = orderRepository.save(orderInDB);
             return orderMapper.orderToOrderDTO(orderSaved);
         }).orElseThrow(() -> new OrderNotFoundException("Pedido no encontrado"));

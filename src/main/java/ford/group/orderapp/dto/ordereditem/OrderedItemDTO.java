@@ -8,6 +8,6 @@ public record OrderedItemDTO(
         OrderDTO order,
         ProductDTO product,
         Long requestedAmount,
-        Float unitPrice
+        Double unitPrice
 ) {
 }

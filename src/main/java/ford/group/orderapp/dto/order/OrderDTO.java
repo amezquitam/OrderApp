@@ -11,7 +11,7 @@ public record OrderDTO(
         Long id,
         ClientDTO client,
         LocalDateTime orderedAt,
-        String orderStatus,
+        String status,
         List<OrderedItemDTO> orderedItems
 
 

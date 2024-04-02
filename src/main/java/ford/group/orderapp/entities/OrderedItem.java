@@ -17,12 +17,12 @@ public class OrderedItem {
 
     private Long requestedAmount;
 
-    private Float unitPrice;
+    private Double unitPrice;
 
     public OrderedItem() {
     }
 
-    public OrderedItem(Long id, Order order, Product product, Long requestedAmount, Float unitPrice) {
+    public OrderedItem(Long id, Order order, Product product, Long requestedAmount, Double unitPrice) {
         this.id = id;
         this.order = order;
         this.product = product;
@@ -62,11 +62,11 @@ public class OrderedItem {
         this.requestedAmount = requestedAmount;
     }
 
-    public Float getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Float unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
@@ -79,7 +79,7 @@ public class OrderedItem {
         private Order order;
         private Product product;
         private Long requestedAmount;
-        private Float unitPrice;
+        private Double unitPrice;
 
         private OrderedItemBuilder() {
         }
@@ -108,7 +108,7 @@ public class OrderedItem {
             return this;
         }
 
-        public OrderedItemBuilder unitPrice(Float unitPrice) {
+        public OrderedItemBuilder unitPrice(Double unitPrice) {
             this.unitPrice = unitPrice;
             return this;
         }

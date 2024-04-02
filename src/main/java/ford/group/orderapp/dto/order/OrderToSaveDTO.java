@@ -6,5 +6,5 @@ import java.time.LocalDate;
 
 public record OrderToSaveDTO(ClientDTO client,
                              LocalDate orderedAt,
-                             String orderStatus) {
+                             String status) {
 }

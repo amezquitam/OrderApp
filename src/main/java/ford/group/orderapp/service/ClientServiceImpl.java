@@ -35,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findById(id).map(clientInDB -> {
             clientInDB.setName(clientDTO.name());
             clientInDB.setEmail(clientDTO.email());
-            clientInDB.setAddress(clientDTO.adress());
+            clientInDB.setAddress(clientDTO.address());
             Client clientSaved = clientRepository.save(clientInDB);
             return clientMapper.clientToClientDTO(clientSaved);
         }).orElseThrow(() -> new ClientNotFoundException("Cliente no encontrado"));
@@ -66,7 +66,9 @@ public class ClientServiceImpl implements ClientService {
         List<Client> clients = clientRepository.findClientsByAddress(address);
         if (clients.isEmpty())
             throw new ClientNotFoundException("Clientes no encontrados");
-        return clients.stream().map(clientMapper::clientToClientDTO).collect(Collectors.toList());
+        return clients.stream()
+                .map(clientMapper::clientToClientDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -74,6 +76,15 @@ public class ClientServiceImpl implements ClientService {
         List<Client> clients = clientRepository.findClientsByNameStartsWith(name);
         if (clients.isEmpty())
             throw new ClientNotFoundException("Clientes no encontrados");
-        return clients.stream().map(clientMapper::clientToClientDTO).collect(Collectors.toList());
+        return clients.stream()
+                .map(clientMapper::clientToClientDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ClientDTO> findAll() {
+        return clientRepository.findAll().stream()
+                .map(clientMapper::clientToClientDTO)
+                .collect(Collectors.toList());
     }
 }

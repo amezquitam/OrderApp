@@ -75,4 +75,18 @@ public class PaymentServiceImpl implements PaymentService{
             throw new PaymentNotFoundException("Pagos no encontrados");
         return payments.stream().map(paymentMapper::paymentToPaymentDTO).collect(Collectors.toList());
     }
+
+    @Override
+    public List<PaymentDTO> findByOrder(Long id) {
+        return paymentRepository.findPaymentsByOrder(id).stream()
+                .map(paymentMapper::paymentToPaymentDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PaymentDTO> findAll() {
+        return paymentRepository.findAll().stream()
+                .map(paymentMapper::paymentToPaymentDTO)
+                .collect(Collectors.toList());
+    }
 }

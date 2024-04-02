@@ -15,4 +15,6 @@ public interface ShippingDetailService {
     ShippingDetailDTO findShippingDetailByOrder(Long orderId);
     List<ShippingDetailDTO> findShippingDetailsByDeliverer(String deliverer);
     List<ShippingDetailDTO> findShippingDetailsByOrderStatus(OrderStatus orderStatus);
+
+    List<ShippingDetailDTO> findAll();
 }

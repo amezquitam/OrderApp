@@ -14,4 +14,6 @@ public interface OrderedItemService {
     List<OrderedItemDTO> findOrderedItemByOrder(Long orderId);
     List<OrderedItemDTO> findOrderedItemByProduct(Long productId);
     Double totalSumOfSalesByProduct(Long productId);
+
+    List<OrderedItemDTO> findAll();
 }

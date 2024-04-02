@@ -64,21 +64,24 @@ public class OrderedItemServiceImpl implements OrderedItemService{
     @Override
     public List<OrderedItemDTO> findOrderedItemByOrder(Long orderId) {
         List<OrderedItem> orderedItems = orderedItemRepository.findOrderedItemsByOrder(orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new));
-        if (orderedItems.isEmpty())
-            throw  new OrderedItemNotFoundExcepction("Items del pedido no econtrados");
         return orderedItems.stream().map(orderedItemMapper::orderedItemToOrderedItemDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderedItemDTO> findOrderedItemByProduct(Long productId) {
         List<OrderedItem> orderedItems = orderedItemRepository.findOrderedItemsByProduct(productRepository.findById(productId).orElseThrow(ProductNotFoundException::new));
-        if (orderedItems.isEmpty())
-            throw new OrderedItemNotFoundExcepction("Items del pedido no encontrados");
         return orderedItems.stream().map(orderedItemMapper::orderedItemToOrderedItemDTO).collect(Collectors.toList());
     }
 
     @Override
     public Double totalSumOfSalesByProduct(Long productId) {
         return orderedItemRepository.totalSumOfSalesByProduct(productRepository.findById(productId).orElseThrow(ProductNotFoundException::new));
+    }
+
+    @Override
+    public List<OrderedItemDTO> findAll() {
+        return orderedItemRepository.findAll().stream()
+                .map(orderedItemMapper::orderedItemToOrderedItemDTO)
+                .collect(Collectors.toList());
     }
 }

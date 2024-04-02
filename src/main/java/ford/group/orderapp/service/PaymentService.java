@@ -14,4 +14,6 @@ public interface PaymentService {
     void removePayment(Long id);
     List<PaymentDTO> findPaymentsByPayedAtBetween(LocalDate from, LocalDate to);
     List<PaymentDTO> findPaymentsByOrderAndPaymentMethod(Long orderId, String paymentMethod);
+    List<PaymentDTO> findByOrder(Long id);
+    List<PaymentDTO> findAll();
 }

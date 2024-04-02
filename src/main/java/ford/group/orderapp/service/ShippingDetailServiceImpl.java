@@ -82,4 +82,11 @@ public class ShippingDetailServiceImpl implements ShippingDetailService{
             throw new ShippingDetailNotFoundException("Detalles de envios no encontrados");
         return shippingDetails.stream().map(shippingDetailMapper::shippingDetailToShippingDetailDTO).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ShippingDetailDTO> findAll() {
+        return shippingDetailRepository.findAll().stream()
+                .map(shippingDetailMapper::shippingDetailToShippingDetailDTO)
+                .collect(Collectors.toList());
+    }
 }

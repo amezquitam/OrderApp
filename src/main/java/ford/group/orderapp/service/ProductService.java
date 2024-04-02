@@ -11,8 +11,8 @@ public interface ProductService {
     ProductDTO updateProduct(Long id, ProductToSaveDTO productToSaveDTO);
     ProductDTO findProductById(Long id) throws ProductNotFoundException;
     void removeProduct(Long id);
-    public List<ProductDTO> findProductsByNameContains(String term);
-    public List<ProductDTO> findProductsByStockGreaterThan(Integer i);
-    public List<ProductDTO> findProductByPriceLessThanAndStockLessThan(Double maxPrice, Integer maxStock);
+    public List<ProductDTO> findProductsBySearchTerm(String term);
+    public List<ProductDTO> findProductsInStock();
+    public List<ProductDTO> findProductsByMaxPriceAndMaxStock(Double maxPrice, Integer maxStock);
 
 }

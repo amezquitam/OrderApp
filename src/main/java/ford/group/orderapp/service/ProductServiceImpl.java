@@ -7,10 +7,12 @@ import ford.group.orderapp.entities.Product;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
 import ford.group.orderapp.exception.ProductNotFoundException;
 import ford.group.orderapp.repository.ProductRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
@@ -48,30 +50,23 @@ public class ProductServiceImpl implements ProductService{
     public void removeProduct(Long id) {
         Product product = productRepository.findById(id).orElseThrow(NotAbleToDeleteException::new);
         productRepository.delete(product);
-
     }
 
     @Override
-    public List<ProductDTO> findProductsByNameContains(String term) {
+    public List<ProductDTO> findProductsBySearchTerm(String term) {
         List<Product> products = productRepository.findProductsByNameContains(term);
-        if ((products.isEmpty()))
-            throw new ProductNotFoundException("Productos no encontrados");
         return products.stream().map(productMapper::productToProductDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductDTO> findProductsByStockGreaterThan(Integer i) {
-        List<Product> products = productRepository.findProductsByStockGreaterThan(i);
-        if ((products.isEmpty()))
-            throw new ProductNotFoundException("Productos no encontrados");
+    public List<ProductDTO> findProductsInStock() {
+        List<Product> products = productRepository.findProductsByStockGreaterThan(0);
         return products.stream().map(productMapper::productToProductDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductDTO> findProductByPriceLessThanAndStockLessThan(Double maxPrice, Integer maxStock) {
+    public List<ProductDTO> findProductsByMaxPriceAndMaxStock(Double maxPrice, Integer maxStock) {
         List<Product> products = productRepository.findProductByPriceLessThanAndStockLessThan(maxPrice,maxStock);
-        if (products.isEmpty())
-            throw new ProductNotFoundException("Productos no encontrados");
         return products.stream().map(productMapper::productToProductDTO).collect(Collectors.toList());
     }
 }

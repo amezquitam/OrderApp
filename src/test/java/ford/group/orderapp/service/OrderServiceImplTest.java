@@ -4,12 +4,7 @@ import ford.group.orderapp.dto.client.ClientDTO;
 import ford.group.orderapp.dto.order.OrderDTO;
 import ford.group.orderapp.dto.order.OrderMapperImpl;
 import ford.group.orderapp.dto.order.OrderToSaveDTO;
-import ford.group.orderapp.dto.ordereditem.OrderedItemMapperImpl;
-import ford.group.orderapp.dto.payment.PaymentDTO;
-import ford.group.orderapp.dto.payment.PaymentToSaveDTO;
-import ford.group.orderapp.entities.Client;
-import ford.group.orderapp.entities.Order;
-import ford.group.orderapp.entities.OrderStatus;
+import ford.group.orderapp.entities.*;
 import ford.group.orderapp.repository.ClientRepository;
 import ford.group.orderapp.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,14 +37,14 @@ class OrderServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        orderService = new OrderServiceImpl(new OrderMapperImpl(),orderRepository,clientRepository,new OrderedItemMapperImpl());
+        orderService = new OrderServiceImpl(new OrderMapperImpl(),orderRepository);
 
         order = Order.builder()
                 .id(12L)
                 .orderedAt(LocalDateTime.of(2024,5,15,0,0))
-                .client(Client.builder().build())
+                .client(Client.builder().id(1L).build())
                 .status(OrderStatus.PENDING)
-                .orderedItems(Collections.emptyList())
+                .orderedItems(List.of(OrderedItem.builder().id(5L).build()))
                 .build();
     }
 
@@ -124,13 +118,34 @@ class OrderServiceImplTest {
 
     @Test
     void findOrdersBetweenTwoDates() {
+        var from = LocalDate.of(2024, 4, 10).atStartOfDay();
+        var to = LocalDate.of(2024, 5, 15).atStartOfDay();
+        given(orderRepository.findOrdersByOrderedAtBetween(from, to)).willReturn(List.of(order));
+
+        var orders = orderService.findOrdersBetweenTwoDates(from.toLocalDate(), to.toLocalDate());
+
+        assertThat(orders).isNotEmpty();
     }
 
     @Test
     void findOrdersByClientAndState() {
+        given(orderRepository.findOrdersByClientAndStatus(Client.builder().id(1L).build(), OrderStatus.PENDING))
+                .willReturn(List.of(order));
+
+        var orders = orderService.findOrdersByClientAndState(1L, "PENDING");
+
+        assertThat(orders).isNotEmpty();
     }
 
     @Test
     void findProductsByClient() {
+        given(orderRepository.findOrdersByClient(1L))
+                .willReturn(List.of(order));
+
+        var orders = orderService.findProductsByClient(1L);
+
+        assertThat(orders).isNotEmpty();
+        assertThat(orders.get(0).client().id()).isEqualTo(1L);
+        assertThat(orders.get(0).orderedItems().get(0).id()).isEqualTo(5L);
     }
 }

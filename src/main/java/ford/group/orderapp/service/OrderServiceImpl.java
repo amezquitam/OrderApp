@@ -3,34 +3,26 @@ package ford.group.orderapp.service;
 import ford.group.orderapp.dto.order.OrderDTO;
 import ford.group.orderapp.dto.order.OrderMapper;
 import ford.group.orderapp.dto.order.OrderToSaveDTO;
-import ford.group.orderapp.dto.ordereditem.OrderedItemDTO;
-import ford.group.orderapp.dto.ordereditem.OrderedItemMapper;
+import ford.group.orderapp.entities.Client;
 import ford.group.orderapp.entities.Order;
 import ford.group.orderapp.entities.OrderStatus;
-import ford.group.orderapp.exception.ClientNotFoundException;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
 import ford.group.orderapp.exception.OrderNotFoundException;
-import ford.group.orderapp.repository.ClientRepository;
 import ford.group.orderapp.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService{
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
-    private final ClientRepository clientRepository;
-    private final OrderedItemMapper orderedItemMapper;
 
-    public OrderServiceImpl(OrderMapper orderMapper, OrderRepository orderRepository, ClientRepository clientRepository, OrderedItemMapper orderedItemMapper) {
+    public OrderServiceImpl(OrderMapper orderMapper, OrderRepository orderRepository) {
         this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
-        this.clientRepository = clientRepository;
-        this.orderedItemMapper = orderedItemMapper;
     }
 
 
@@ -66,31 +58,24 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<OrderDTO> findOrdersBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
-        List<Order> orders = orderRepository.findOrdersByOrderedAtBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+        List<Order> orders = orderRepository.findOrdersByOrderedAtBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
         return orders.stream().map(orderMapper::orderToOrderDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDTO> findOrdersByClientAndState(Long id, String status) {
-        List<Order> orders = orderRepository.findOrdersByClientAndStatus(clientRepository.findById(id).orElseThrow(ClientNotFoundException::new),OrderStatus.valueOf(status));
+        Client client = Client.builder().id(id).build();
+        List<Order> orders = orderRepository.findOrdersByClientAndStatus(client, OrderStatus.valueOf(status));
         return orders.stream().map(orderMapper::orderToOrderDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Map<OrderDTO, List<OrderedItemDTO>> findProductsByClient(Long clientId) {
-//        Map<Order, List<OrderedItem>> orders = orderRepository.findOrdersByClient(clientId);
-//        Map<OrderDTO, List<OrderedItemDTO>> ordersDTO = new HashMap<>();
-//        if (orders.isEmpty())
-//            throw new OrderNotFoundException("Pedidos no encontrados");
-//        for (Map.Entry<Order,List<OrderedItem>> entry : orders.entrySet()){
-//            Order order = entry.getKey();
-//            List<OrderedItem> orderedItems = entry.getValue();
-//            OrderDTO orderDTO = orderMapper.orderToOrderDTO(order);
-//            List<OrderedItemDTO> orderedItemDTOS = orderedItems.stream().map(orderedItemMapper::orderedItemToOrderedItemDTO).collect(Collectors.toList());
-//            ordersDTO.put(orderDTO, orderedItemDTOS);
-//        }
-//        return ordersDTO;
-        return null;
+    public List<OrderDTO> findProductsByClient(Long clientId) {
+        List<Order> orders = orderRepository.findOrdersByClient(clientId);
+
+        return orders.stream()
+                .map(orderMapper::orderToOrderDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

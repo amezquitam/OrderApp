@@ -3,10 +3,10 @@ package ford.group.orderapp.service;
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailDTO;
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailMapper;
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailToSaveDTO;
+import ford.group.orderapp.entities.Order;
 import ford.group.orderapp.entities.OrderStatus;
 import ford.group.orderapp.entities.ShippingDetail;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
-import ford.group.orderapp.exception.OrderNotFoundException;
 import ford.group.orderapp.exception.ShippingDetailNotFoundException;
 import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.ShippingDetailRepository;
@@ -61,7 +61,7 @@ public class ShippingDetailServiceImpl implements ShippingDetailService{
 
     @Override
     public ShippingDetailDTO findShippingDetailByOrder(Long orderId) {
-        ShippingDetail shippingDetail = shippingDetailRepository.findShippingDetailByOrder(orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new));
+        ShippingDetail shippingDetail = shippingDetailRepository.findShippingDetailByOrder(Order.builder().id(orderId).build());
         if(Objects.isNull(shippingDetail))
             throw new ShippingDetailNotFoundException("Detalles de envio no encontrado");
         return shippingDetailMapper.shippingDetailToShippingDetailDTO(shippingDetail);
@@ -76,7 +76,8 @@ public class ShippingDetailServiceImpl implements ShippingDetailService{
     }
 
     @Override
-    public List<ShippingDetailDTO> findShippingDetailsByOrderStatus(OrderStatus orderStatus) {
+    public List<ShippingDetailDTO> findShippingDetailsByOrderStatus(String status) {
+        OrderStatus orderStatus = OrderStatus.valueOf(status);
         List<ShippingDetail> shippingDetails = shippingDetailRepository.findShippingDetailsByOrderStatus(orderStatus);
         if (shippingDetails.isEmpty())
             throw new ShippingDetailNotFoundException("Detalles de envios no encontrados");

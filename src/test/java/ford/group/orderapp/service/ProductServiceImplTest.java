@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -144,5 +145,25 @@ class ProductServiceImplTest {
 
     @Test
     void findProductsByMaxPriceAndMaxStock() {
+        given(productRepository.findProductByPriceLessThanAndStockLessThan(1400.0, 15)).willReturn(Collections.emptyList());
+
+        var products = productService.findProductsByMaxPriceAndMaxStock(1400.0, 15);
+
+        assertThat(products).isEmpty();
+
+        //
+
+        given(productRepository.findProductByPriceLessThanAndStockLessThan(1600.0, 5)).willReturn(Collections.emptyList());
+
+        products = productService.findProductsByMaxPriceAndMaxStock(1600.0, 5);
+
+        assertThat(products).isEmpty();
+
+        //
+        given(productRepository.findProductByPriceLessThanAndStockLessThan(1600.0, 15)).willReturn(List.of(product));
+
+        products = productService.findProductsByMaxPriceAndMaxStock(1600.0, 15);
+
+        assertThat(products).isNotEmpty();
     }
 }

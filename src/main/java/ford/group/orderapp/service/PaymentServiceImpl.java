@@ -3,11 +3,12 @@ package ford.group.orderapp.service;
 import ford.group.orderapp.dto.payment.PaymentDTO;
 import ford.group.orderapp.dto.payment.PaymentMapper;
 import ford.group.orderapp.dto.payment.PaymentToSaveDTO;
+import ford.group.orderapp.entities.Order;
 import ford.group.orderapp.entities.Payment;
 import ford.group.orderapp.entities.PaymentMethod;
 import ford.group.orderapp.exception.ClientNotFoundException;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
-import ford.group.orderapp.exception.OrderedItemNotFoundExcepction;
+import ford.group.orderapp.exception.OrderedItemNotFoundException;
 import ford.group.orderapp.exception.PaymentNotFoundException;
 import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.PaymentRepository;
@@ -21,12 +22,10 @@ import java.util.stream.Collectors;
 public class PaymentServiceImpl implements PaymentService{
     private final PaymentMapper paymentMapper;
     private final PaymentRepository paymentRepository;
-    private final OrderRepository orderRepository;
 
-    public PaymentServiceImpl(PaymentMapper paymentMapper, PaymentRepository paymentRepository, OrderRepository orderRepository) {
+    public PaymentServiceImpl(PaymentMapper paymentMapper, PaymentRepository paymentRepository) {
         this.paymentMapper = paymentMapper;
         this.paymentRepository = paymentRepository;
-        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -63,16 +62,13 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public List<PaymentDTO> findPaymentsByPayedAtBetween(LocalDate from, LocalDate to) {
         List<Payment> payments = paymentRepository.findPaymentsByPayedAtBetween(from, to);
-        if (payments.isEmpty())
-            throw new PaymentNotFoundException("Pagos no encontrados");
         return payments.stream().map(paymentMapper::paymentToPaymentDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<PaymentDTO> findPaymentsByOrderAndPaymentMethod(Long orderId, String paymentMethod) {
-        List<Payment> payments = paymentRepository.findPaymentsByOrderAndPaymentMethod(orderRepository.findById(orderId).orElseThrow(OrderedItemNotFoundExcepction::new), PaymentMethod.valueOf(paymentMethod));
-        if (payments.isEmpty())
-            throw new PaymentNotFoundException("Pagos no encontrados");
+        Order order = Order.builder().id(orderId).build();
+        List<Payment> payments = paymentRepository.findPaymentsByOrderAndPaymentMethod(order, PaymentMethod.valueOf(paymentMethod));
         return payments.stream().map(paymentMapper::paymentToPaymentDTO).collect(Collectors.toList());
     }
 

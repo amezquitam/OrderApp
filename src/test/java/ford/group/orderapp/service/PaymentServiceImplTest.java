@@ -1,29 +1,25 @@
 package ford.group.orderapp.service;
 
 import ford.group.orderapp.dto.client.ClientDTO;
-import ford.group.orderapp.dto.client.ClientMapperImpl;
-import ford.group.orderapp.dto.client.ClientToSaveDTO;
 import ford.group.orderapp.dto.order.OrderDTO;
 import ford.group.orderapp.dto.payment.PaymentDTO;
 import ford.group.orderapp.dto.payment.PaymentMapperImpl;
 import ford.group.orderapp.dto.payment.PaymentToSaveDTO;
 import ford.group.orderapp.entities.*;
-import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -33,18 +29,16 @@ import static org.mockito.Mockito.*;
 class PaymentServiceImplTest {
     @Mock
     PaymentRepository paymentRepository;
-    @Mock
-    OrderRepository orderRepository;
     PaymentServiceImpl paymentService;
     Payment payment;
 
     @BeforeEach
     void setUp() {
-        paymentService = new PaymentServiceImpl(new PaymentMapperImpl(), paymentRepository, orderRepository);
+        paymentService = new PaymentServiceImpl(new PaymentMapperImpl(), paymentRepository);
 
         payment = Payment.builder()
                 .id(48L)
-                .order(Order.builder().build())
+                .order(Order.builder().id(5L).build())
                 .paymentMethod(PaymentMethod.CASH)
                 .payedAt(LocalDate.of(2024,6,16))
                 .totalPayment(2000.0)
@@ -125,10 +119,22 @@ class PaymentServiceImplTest {
 
     @Test
     void findPaymentsByPayedAtBetween() {
+        var from = LocalDate.of(2024, 5, 10);
+        var to = LocalDate.of(2024, 7, 10);
+        given(paymentRepository.findPaymentsByPayedAtBetween(from, to)).willReturn(List.of(payment));
 
+        var payments = paymentService.findPaymentsByPayedAtBetween(from, to);
+
+        assertThat(payments).isNotEmpty();
     }
 
     @Test
     void findPaymentsByOrderAndPaymentMethod() {
+        given(paymentRepository.findPaymentsByOrderAndPaymentMethod(Order.builder().id(5L).build(), PaymentMethod.CASH))
+                .willReturn(List.of(payment));
+
+        var payments = paymentService.findPaymentsByOrderAndPaymentMethod(5L, "CASH");
+
+        assertThat(payments).isNotEmpty();
     }
 }

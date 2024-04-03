@@ -14,6 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findOrdersByClientAndStatus(Client client, OrderStatus status);
     // @Query("SELECT sd FROM Order sd join fetch OrderedItem pd ON pd.id = sd.id")
-    @Query("SELECT o FROM Order o where o.client.id = ?1")
+    @Query("SELECT o FROM Order o join fetch o.orderedItems where o.client.id = ?1")
     List<Order> findOrdersByClient(Long clientId);
 }

@@ -6,7 +6,7 @@ import ford.group.orderapp.dto.ordereditem.OrderedItemToSaveDTO;
 import ford.group.orderapp.entities.OrderedItem;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
 import ford.group.orderapp.exception.OrderNotFoundException;
-import ford.group.orderapp.exception.OrderedItemNotFoundExcepction;
+import ford.group.orderapp.exception.OrderedItemNotFoundException;
 
 import ford.group.orderapp.exception.ProductNotFoundException;
 import ford.group.orderapp.repository.OrderRepository;
@@ -46,12 +46,12 @@ public class OrderedItemServiceImpl implements OrderedItemService{
             orderedItemInDB.setUnitPrice(orderedItemDTO.unitPrice());
             OrderedItem orderedItemSaved = orderedItemRepository.save(orderedItemInDB);
             return orderedItemMapper.orderedItemToOrderedItemDTO(orderedItemSaved);
-        }).orElseThrow(() -> new OrderedItemNotFoundExcepction("Item de pedido no encontrado"));
+        }).orElseThrow(() -> new OrderedItemNotFoundException("Item de pedido no encontrado"));
     }
 
     @Override
-    public OrderedItemDTO findOrderedItemById(Long id) throws OrderedItemNotFoundExcepction {
-        OrderedItem orderedItem = orderedItemRepository.findById(id).orElseThrow(OrderedItemNotFoundExcepction::new);
+    public OrderedItemDTO findOrderedItemById(Long id) throws OrderedItemNotFoundException {
+        OrderedItem orderedItem = orderedItemRepository.findById(id).orElseThrow(OrderedItemNotFoundException::new);
         return orderedItemMapper.orderedItemToOrderedItemDTO(orderedItem);
     }
 

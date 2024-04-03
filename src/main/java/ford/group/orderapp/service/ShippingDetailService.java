@@ -2,7 +2,6 @@ package ford.group.orderapp.service;
 
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailDTO;
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailToSaveDTO;
-import ford.group.orderapp.entities.OrderStatus;
 import ford.group.orderapp.exception.ShippingDetailNotFoundException;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface ShippingDetailService {
     void removeShippingDetail(Long id);
     ShippingDetailDTO findShippingDetailByOrder(Long orderId);
     List<ShippingDetailDTO> findShippingDetailsByDeliverer(String deliverer);
-    List<ShippingDetailDTO> findShippingDetailsByOrderStatus(OrderStatus orderStatus);
+    List<ShippingDetailDTO> findShippingDetailsByOrderStatus(String status);
 
     List<ShippingDetailDTO> findAll();
 }

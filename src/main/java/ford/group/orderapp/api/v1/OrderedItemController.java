@@ -4,7 +4,7 @@ package ford.group.orderapp.api.v1;
 import ford.group.orderapp.dto.ordereditem.OrderedItemDTO;
 import ford.group.orderapp.dto.ordereditem.OrderedItemToSaveDTO;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
-import ford.group.orderapp.exception.OrderedItemNotFoundExcepction;
+import ford.group.orderapp.exception.OrderedItemNotFoundException;
 import ford.group.orderapp.service.OrderedItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class OrderedItemController {
         try {
             OrderedItemDTO order = orderedItemService.findOrderedItemById(id);
             return ResponseEntity.ok(order);
-        } catch (OrderedItemNotFoundExcepction err) {
+        } catch (OrderedItemNotFoundException err) {
             return ResponseEntity.notFound().build();
         }
     }

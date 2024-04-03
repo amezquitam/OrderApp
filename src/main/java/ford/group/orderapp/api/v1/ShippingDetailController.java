@@ -4,7 +4,7 @@ package ford.group.orderapp.api.v1;
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailDTO;
 import ford.group.orderapp.dto.shippingdetail.ShippingDetailToSaveDTO;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
-import ford.group.orderapp.exception.OrderedItemNotFoundExcepction;
+import ford.group.orderapp.exception.OrderedItemNotFoundException;
 import ford.group.orderapp.service.ShippingDetailService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class ShippingDetailController {
         try {
             ShippingDetailDTO order = shippingDetailService.findShippingDetailById(id);
             return ResponseEntity.ok(order);
-        } catch (OrderedItemNotFoundExcepction err) {
+        } catch (OrderedItemNotFoundException err) {
             return ResponseEntity.notFound().build();
         }
     }

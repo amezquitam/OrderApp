@@ -8,7 +8,6 @@ import ford.group.orderapp.dto.shippingdetail.ShippingDetailToSaveDTO;
 import ford.group.orderapp.entities.Order;
 import ford.group.orderapp.entities.OrderStatus;
 import ford.group.orderapp.entities.ShippingDetail;
-import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.ShippingDetailRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +31,6 @@ class ShippingDetailServiceImplTest {
     ShippingDetailServiceImpl shippingDetailService;
     @Mock
     ShippingDetailRepository shippingDetailRepository;
-    @Mock
-    OrderRepository orderRepository;
     Order order = Order.builder()
             .id(5L)
             .status(OrderStatus.SENT).build();
@@ -41,7 +38,7 @@ class ShippingDetailServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        shippingDetailService = new ShippingDetailServiceImpl(shippingDetailRepository, new ShippingDetailMapperImpl(), orderRepository);
+        shippingDetailService = new ShippingDetailServiceImpl(shippingDetailRepository, new ShippingDetailMapperImpl());
 
         shippingDetail = ShippingDetail.builder()
                 .id(50L)

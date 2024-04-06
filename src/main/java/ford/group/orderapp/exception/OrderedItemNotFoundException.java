@@ -1,18 +1,22 @@
 package ford.group.orderapp.exception;
 
-public class OrderedItemNotFoundException extends RuntimeException {
-    public OrderedItemNotFoundException(){
+public class OrderedItemNotFoundException extends ResourceNotFoundException {
+    public OrderedItemNotFoundException() {
     }
-    public OrderedItemNotFoundException(String message){
+
+    public OrderedItemNotFoundException(String message) {
         super(message);
     }
-    public OrderedItemNotFoundException(String message, Throwable cause){
+
+    public OrderedItemNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
-    public OrderedItemNotFoundException(Throwable cause){
+
+    public OrderedItemNotFoundException(Throwable cause) {
         super(cause);
     }
-    public OrderedItemNotFoundException(String message, Throwable cause, boolean enableSupression, boolean writableStackTrace){
-        super(message, cause,enableSupression,writableStackTrace);
+
+    public OrderedItemNotFoundException(String message, Throwable cause, boolean enableSupression, boolean writableStackTrace) {
+        super(message, cause, enableSupression, writableStackTrace);
     }
 }

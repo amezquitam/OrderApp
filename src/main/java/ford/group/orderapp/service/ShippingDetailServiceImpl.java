@@ -8,7 +8,6 @@ import ford.group.orderapp.entities.OrderStatus;
 import ford.group.orderapp.entities.ShippingDetail;
 import ford.group.orderapp.exception.NotAbleToDeleteException;
 import ford.group.orderapp.exception.ShippingDetailNotFoundException;
-import ford.group.orderapp.repository.OrderRepository;
 import ford.group.orderapp.repository.ShippingDetailRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +19,10 @@ import java.util.stream.Collectors;
 public class ShippingDetailServiceImpl implements ShippingDetailService{
     private final ShippingDetailRepository shippingDetailRepository;
     private final ShippingDetailMapper shippingDetailMapper;
-    private final OrderRepository orderRepository;
 
-    public ShippingDetailServiceImpl(ShippingDetailRepository shippingDetailRepository, ShippingDetailMapper shippingDetailMapper, OrderRepository orderRepository) {
+    public ShippingDetailServiceImpl(ShippingDetailRepository shippingDetailRepository, ShippingDetailMapper shippingDetailMapper) {
         this.shippingDetailRepository = shippingDetailRepository;
         this.shippingDetailMapper = shippingDetailMapper;
-        this.orderRepository = orderRepository;
     }
 
     @Override

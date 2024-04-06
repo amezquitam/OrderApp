@@ -4,6 +4,7 @@ import ford.group.orderapp.dto.client.ClientDTO;
 import ford.group.orderapp.dto.client.ClientToSaveDTO;
 import ford.group.orderapp.exception.ClientNotFoundException;
 import ford.group.orderapp.service.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class ClientController {
     }
 
     @PostMapping("/")
-    ResponseEntity<ClientDTO> create(@RequestBody ClientToSaveDTO clientToSave) {
+    ResponseEntity<ClientDTO> create(@RequestBody @Valid ClientToSaveDTO clientToSave) {
         // validations
 
         // save

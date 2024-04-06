@@ -2,7 +2,6 @@ package ford.group.orderapp.dto.order;
 
 import ford.group.orderapp.dto.client.ClientDTO;
 import ford.group.orderapp.dto.ordereditem.OrderedItemDTO;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -14,7 +13,6 @@ public record OrderDTO(
         ClientDTO client,
         LocalDateTime orderedAt,
         String status,
-        @NotEmpty
         List<OrderedItemDTO> orderedItems
 
 ) {
